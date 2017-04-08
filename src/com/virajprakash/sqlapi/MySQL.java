@@ -4,6 +4,9 @@ import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author Viraj Prakash
+ */
 public class MySQL implements Cloneable {
 
 	private static final String INSERT = "INSERT INTO :table VALUES(:total);";
