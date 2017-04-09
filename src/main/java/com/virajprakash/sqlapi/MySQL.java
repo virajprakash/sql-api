@@ -70,7 +70,7 @@ public class MySQL implements Cloneable {
 			if (this.sqlConnection.isClosed()) {
 				this.connect();
 			}
-		} catch (SQLException localException) {
+		} catch (SQLException e) {
 		}
 		try {
 			PreparedStatement statement = this.sqlConnection.prepareStatement(query);
@@ -84,8 +84,8 @@ public class MySQL implements Cloneable {
 			}
 
 			return new MySQLResponse(statement, statement.executeQuery());
-		} catch (SQLException localException) {
-			localException.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
 
 			return null;
 		}
@@ -102,7 +102,7 @@ public class MySQL implements Cloneable {
 			if (this.sqlConnection.isClosed()) {
 				this.connect();
 			}
-		} catch (SQLException localException) {
+		} catch (SQLException e) {
 		}
 		try {
 			PreparedStatement preparedStatement = this.sqlConnection.prepareStatement(statement);
@@ -135,7 +135,7 @@ public class MySQL implements Cloneable {
 				this.connect();
 			}
 		} catch (SQLException e) {
-
+			e.printStackTrace();
 		}
 
 		try {
@@ -165,7 +165,7 @@ public class MySQL implements Cloneable {
 				this.connect();
 			}
 		} catch (SQLException e) {
-
+			e.printStackTrace();
 		}
 		PreparedStatement statement = null;
 		try {
@@ -174,8 +174,8 @@ public class MySQL implements Cloneable {
 			ResultSet set = statement.executeQuery();
 
 			return new MySQLResponse(statement, set, set.next());
-		} catch (SQLException localException) {
-			localException.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
 
 			return new MySQLResponse(statement, null, false);
 		}
