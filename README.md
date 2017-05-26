@@ -40,3 +40,13 @@ MySQLResponse response = database.executeUpdate(update, "me@virajprakash.com", "
 ```sql
 UPDATE Accounts SET email = "me@virajprakash.com", password = "password123" WHERE username = "Viraj";
 ```
+## Count values in a table
+```java
+String count = database.count("Accounts", "Email");
+MySQLResponse response = database.executeQuery(count, "me@virajprakash.com");
+int result = database.getCount(response);
+```
+**This would run the following query:**
+```sql
+SELECT COUNT(*) AS count FROM Accounts WHERE Email = "me@virajprakash.com";
+```
