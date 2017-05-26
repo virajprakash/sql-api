@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class MySQL implements Cloneable {
 
+	//Queries
 	private static final String INSERT = "INSERT INTO :table VALUES(:total);";
 	private static final String SELECT = "SELECT :fields FROM :table WHERE :values;";
 	private static final String SELECT_ALL = "SELECT :fields FROM :table;";
@@ -17,11 +18,11 @@ public class MySQL implements Cloneable {
 	private static final String COUNT = "SELECT COUNT(*) AS count FROM :table WHERE :values;";
 
 	//MySQL Credentials
-	private String server;
-	private String port;
-	private String database;
-	private String user;
-	private String pass;
+	private final String server;
+	private final String port;
+	private final String database;
+	private final String user;
+	private final String pass;
 	private Connection sqlConnection;
 
 	public MySQL(String server, String port, String database, String user, String pass) {
