@@ -14,6 +14,7 @@ public class MySQL implements Cloneable {
 	private static final String SELECT_ALL = "SELECT :fields FROM :table;";
 	private static final String UPDATE = "UPDATE :table SET :fields WHERE :values;";
 	private static final String DELETE = "DELETE FROM :table WHERE :values;";
+	private static final String COUNT = "SELECT COUNT(*) AS count FROM :table WHERE :values;";
 
 	//MySQL Credentials
 	private String server;
@@ -38,7 +39,7 @@ public class MySQL implements Cloneable {
 				this.connect();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			this.connect();
 		}
 		return this.sqlConnection;
 	}
@@ -53,7 +54,7 @@ public class MySQL implements Cloneable {
 			this.sqlConnection = DriverManager.getConnection("jdbc:mysql://" + server + ":" + port + "/" + database, user, pass);
 			return true;
 		} catch (SQLException e) {
-			System.out.println("Connection failed.");
+			System.out.println("Connection failed. Reconnecting");
 			e.printStackTrace();
 			return false;
 		}
@@ -62,7 +63,7 @@ public class MySQL implements Cloneable {
 	/**
 	 * Executes a query
 	 * @param query Query to execute
-	 * @param sets Parameters for preparedstatement
+	 * @param sets Parameters for prepared statement
 	 * @return Server response
 	 */
 	public MySQLResponse executeQuery(String query, Object... sets) {
@@ -94,7 +95,7 @@ public class MySQL implements Cloneable {
 	/**
 	 * Executes an SQL statement
 	 * @param statement Statement to execute
-	 * @param sets Parameters for PreparedStatement
+	 * @param sets Parameters for prepared statement
 	 * @return Server response
 	 */
 	public MySQLResponse execute(String statement, Object... sets) {
@@ -126,7 +127,7 @@ public class MySQL implements Cloneable {
 	/**
 	 * Executes an SQL update
 	 * @param update Statement to execute
-	 * @param sets Parameters for PreparedStatement
+	 * @param sets Parameters for prepared statement
 	 * @return Server response
 	 */
 	public MySQLResponse executeUpdate(String update, Object... sets) {
@@ -154,9 +155,21 @@ public class MySQL implements Cloneable {
 			return new MySQLResponse(statement);
 		} catch (SQLException e) {
 			e.printStackTrace();
-
 			return null;
 		}
+	}
+
+	public int getCount(MySQLResponse countResponse) {
+		int count = 0;
+		try {
+			ResultSet set = countResponse.getSet();
+			if (set.first()) {
+				count = set.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 	public MySQLResponse exists(String field, String table, String fieldName, String value) {
@@ -259,6 +272,19 @@ public class MySQL implements Cloneable {
 		String update = DELETE.replace(":table", table).replace(":values", formattedValues.toString());
 		System.out.println(update);
 		return update;
+	}
+
+	public String count(String table, String... values) {
+		StringBuilder formattedValues = new StringBuilder();
+		for (int x = 0; x<values.length; x++) {
+			if (x != 0) {
+				formattedValues.append(" AND ");
+			}
+			formattedValues.append(values[x] + "=?");
+		}
+		String count = COUNT.replace(":table", table).replace(":values", formattedValues.toString());
+		System.out.println(count);
+		return count;
 	}
 
 }
