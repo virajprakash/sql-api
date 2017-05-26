@@ -17,6 +17,7 @@ if (database.connect()) {
 ```java
 String select = database.select(Arrays.asList("username", "password"), "Accounts", "email");
 MySQLResponse response = database.executeQuery(select, "me@virajprakash.com");
+response.closeAll();
 ```
 **This would run the following query:**
 ```sql
@@ -26,6 +27,7 @@ SELECT username, password FROM Accounts WHERE email = "me@virajprakash.com";
 ```java
 String insert = database.insert("Accounts", 3);
 MySQLResponse response = database.executeUpdate(insert, "me@virajprakash.com", "Viraj", "password");
+response.closeAll();
 ```
 **This would run the following query:**
 ```sql
@@ -35,6 +37,7 @@ INSERT INTO Accounts VALUES ("me@virajprakash.com", "Viraj", "password");
 ```java
 String update = database.update("Accounts", Arrays.asList("email", "password"), "username");
 MySQLResponse response = database.executeUpdate(update, "me@virajprakash.com", "password123", "Viraj");
+response.closeAll();
 ```
 **This would run the following query:**
 ```sql
@@ -45,6 +48,7 @@ UPDATE Accounts SET email = "me@virajprakash.com", password = "password123" WHER
 String count = database.count("Accounts", "Email");
 MySQLResponse response = database.executeQuery(count, "me@virajprakash.com");
 int result = database.getCount(response);
+response.closeAll();
 ```
 **This would run the following query:**
 ```sql
