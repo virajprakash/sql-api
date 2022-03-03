@@ -1,9 +1,6 @@
 # Java MySQL API
 This library allows for making basic queries and updates to a database on the fly. 
 It is extremely easy and simple to use.
-# Maven
-* group id: _com.virajprakash_
-* artifact id: _sqlapi_
 # How to use
 Below are the very basics on how to use the library.
 ## Connect to database
